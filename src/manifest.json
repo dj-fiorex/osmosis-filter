@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Osmosis Filter",
+  "options_page": "options.html",
+  "background": { "service_worker": "background.bundle.js" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-34.png"
+  },
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://app.osmosis.zone/pools"],
+      "js": ["osmosisContentScript.bundle.js"],
+      "css": ["osmosisContentScript.styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "osmosisContentScript.styles.css",
+        "icon-128.png",
+        "icon-34.png"
+      ],
+      "matches": []
+    }
+  ],
+  "permissions": ["contextMenus", "storage", "tabs", "webRequest"]
+}
