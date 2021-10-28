@@ -20,6 +20,14 @@ It also add some icon to the pool card:
 - ![DollarIcon](https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/45/000000/external-dollar-banking-and-finance-kiranshastry-gradient-kiranshastry.png) You have money on this pool
 
 
+## Usage
+
+1. Install the extension
+2. Go to [Osmosis pools page](https://app.osmosis.zone/pools)
+3. Wait 10 seconds to gather data -> After that a button will show in the upper-right corner
+4. Press Activate Button
+5. Enjoy!
+
 # If you think this extension is usefull please leave a star!
 
 ## Development: 
