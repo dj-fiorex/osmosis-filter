@@ -7,77 +7,132 @@ import {
 } from './osmosis-def';
 
 export const getPoolName = (element) => {
-  return element.querySelector(`.${poolNameClass}`).textContent;
+  try {
+    return element.querySelector(`.${poolNameClass}`).textContent;
+  } catch (error) {
+    console.error('[getPoolName]: ', error);
+    return '';
+  }
 };
 export const getPoolApr = (element, type) => {
-  const all = Array.from(element.querySelectorAll(`.${poolAprClass}`));
-  let str = '';
-  if (type === 'My Pools') {
-    str = all[1].textContent;
-  } else if (type === 'Incentivized Pools') {
-    str = all[0].textContent;
+  try {
+    const all = Array.from(element.querySelectorAll(`.${poolAprClass}`));
+    let str = '';
+    if (type === 'My Pools') {
+      str = all[1].textContent;
+    } else if (type === 'Incentivized Pools') {
+      str = all[0].textContent;
+    }
+    const nmb = parseFloat(str.replace('%', '').replaceAll(',', ''));
+    return isNaN(nmb) ? 0 : nmb;
+  } catch (error) {
+    console.error('[getPoolApr]: ', error);
+    return 0;
   }
-  const nmb = parseFloat(str.replace('%', '').replaceAll(',', ''));
-  return isNaN(nmb) ? 0 : nmb;
 };
 
 export const getPoolLiquidity = (element, type) => {
-  const all = Array.from(element.querySelectorAll(`.${poolAprClass}`));
-  let str = '';
-  if (type === 'My Pools') {
-    str = all[0].textContent;
-  } else if (type === 'Incentivized Pools') {
-    str = all[1].textContent;
+  try {
+    const all = Array.from(element.querySelectorAll(`.${poolAprClass}`));
+    let str = '';
+    if (type === 'My Pools') {
+      str = all[0].textContent;
+    } else if (type === 'Incentivized Pools') {
+      str = all[1].textContent;
+    }
+    const nmb = parseFloat(str.replace('$', '').replaceAll(',', ''));
+    return isNaN(nmb) ? 0 : nmb;
+  } catch (error) {
+    console.error('[getPoolLiquidity]: ', error);
+    return 0;
   }
-  const nmb = parseFloat(str.replace('$', '').replaceAll(',', ''));
-  return isNaN(nmb) ? 0 : nmb;
 };
 
 export const getPoolBonusRemaining = (element) => {
-  const str = Array.from(element.querySelectorAll(`.${poolAprClass}`))[0]
-    .textContent;
-  const nmb = parseFloat(
-    str.substring(0, str.indexOf(' ')).replaceAll(',', '')
-  );
-  return isNaN(nmb) ? 0 : nmb;
+  try {
+    const str = Array.from(element.querySelectorAll(`.${poolAprClass}`))[0]
+      .textContent;
+    const nmb = parseFloat(
+      str.substring(0, str.indexOf(' ')).replaceAll(',', '')
+    );
+    return isNaN(nmb) ? 0 : nmb;
+  } catch (error) {
+    console.error('[getPoolBonusRemaining]: ', error);
+    return 0;
+  }
 };
 export const getPoolBonusRemainingCoin = (element) => {
-  const str = Array.from(element.querySelectorAll(`.${poolAprClass}`))[0]
-    .textContent;
-  return str.substr(str.indexOf(' ') + 1);
+  try {
+    const str = Array.from(element.querySelectorAll(`.${poolAprClass}`))[0]
+      .textContent;
+    return str.substr(str.indexOf(' ') + 1);
+  } catch (error) {
+    console.error('[getPoolBonusRemainingCoin]: ', error);
+    return '';
+  }
 };
 
 export const getPoolBonusElement = (element) => {
-  return element.querySelector(`.${subheaderClass}`);
+  try {
+    return element.querySelector(`.${subheaderClass}`);
+  } catch (error) {
+    console.error('[getPoolBonusElement]: ', error);
+    return '';
+  }
 };
 
 export const getPoolEpochsRemaining = (element) => {
-  return Array.from(element.querySelectorAll(`.${poolAprClass}`))[1]
-    .textContent;
+  try {
+    return Array.from(element.querySelectorAll(`.${poolAprClass}`))[1]
+      .textContent;
+  } catch (error) {
+    console.error('[getPoolEpochsRemaining]: ', error);
+    return '';
+  }
 };
 
 export const getPoolMyLiquidity = (element) => {
-  return Array.from(element.querySelectorAll(`.${poolAprClass}`))[2]
-    .textContent;
+  try {
+    return Array.from(element.querySelectorAll(`.${poolAprClass}`))[2]
+      .textContent;
+  } catch (error) {
+    console.error('[getPoolMyLiquidity]: ', error);
+    return '';
+  }
 };
 
 export const getPoolMyBondedAmount = (element) => {
-  return Array.from(element.querySelectorAll(`.${poolAprClass}`))[3]
-    .textContent;
+  try {
+    return Array.from(element.querySelectorAll(`.${poolAprClass}`))[3]
+      .textContent;
+  } catch (error) {
+    console.error('[getPoolMyBondedAmount]: ', error);
+    return '';
+  }
 };
 
 export const getPoolId = (element) => {
-  const str = element
-    .querySelector(`.${cardHeadClass}`)
-    .querySelector(`h5`).textContent;
+  try {
+    const str = element
+      .querySelector(`.${cardHeadClass}`)
+      .querySelector(`h5`).textContent;
 
-  const nmb = parseInt(str.replace('Pool #', ''));
-  return isNaN(nmb) ? 0 : nmb;
+    const nmb = parseInt(str.replace('Pool #', ''));
+    return isNaN(nmb) ? 0 : nmb;
+  } catch (error) {
+    console.error('[getPoolId]: ', error);
+    return '';
+  }
 };
 
 export const checkType = (element) => {
-  const title = element.querySelector(`.${titleClass}`);
-  return title ? title.textContent : '';
+  try {
+    const title = element.querySelector(`.${titleClass}`);
+    return title ? title.textContent : '';
+  } catch (error) {
+    console.error('[checkType]: ', error);
+    return '';
+  }
 };
 
 export const createEmptyPool = () => {
