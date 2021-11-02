@@ -12,7 +12,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://app.osmosis.zone/pools"],
+      "matches": ["https://*/*"],
       "js": ["osmosisContentScript.bundle.js"],
       "css": ["osmosisContentScript.styles.css"]
     }
@@ -27,5 +27,11 @@
       "matches": []
     }
   ],
-  "permissions": ["contextMenus", "storage", "tabs", "webRequest"]
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs",
+    "webRequest",
+    "webNavigation"
+  ]
 }

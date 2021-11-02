@@ -6,3 +6,6 @@ export const poolAprClass = 'css-sp7drj';
 export const cardHeadClass = 'css-1nw1f0o';
 
 export const subheaderClass = 'css-ibdtyj';
+
+export const mainContainerClass = 'css-13n09ay';
+export const containerAllClass = 'css-1jtuq10';

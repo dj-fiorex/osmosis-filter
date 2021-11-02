@@ -8,9 +8,8 @@ import {
   divFlexContentBetween,
   multiselect,
 } from './modules/components';
-import { msgHandler } from './modules/utility';
-const mainContainerClass = 'css-13n09ay';
-const containerAllClass = 'css-1jtuq10';
+
+import { containerAllClass, mainContainerClass } from './modules/osmosis-def';
 
 let firstPaint = true;
 let activated = false;
@@ -42,6 +41,7 @@ const setupUI = () => {
       activated = false;
       btnEl.innerText = 'Activate';
       document.querySelector(`.${containerAllClass}`).innerHTML = backupString;
+      firstPaint = true;
       setupUI();
     }
   });
@@ -119,10 +119,34 @@ const addToContainer = (container, element, firstPaint) => {
   container.appendChild(element.cardElement);
 };
 
-setTimeout(() => {
-  doPreprocess();
-  doBackup();
-  setupUI();
-}, 10000);
+const start = () => {
+  setTimeout(() => {
+    doPreprocess();
+    doBackup();
+    setupUI();
+  }, 10000);
+};
+
+const msgHandler = (msg, sender, sendResponse) => {
+  console.log('msgHandler', msg, sender);
+  console.log(
+    sender.tab
+      ? 'from a content script:' + sender.tab.url
+      : 'from the extension'
+  );
+  const { type, data } = msg;
+  switch (type) {
+    case 'onHistoryStateUpdated':
+      console.log('onHistoryStateUpdatedListener content script', firstPaint);
+      console.log('onHistoryStateUpdatedListener starting');
+      start();
+      sendResponse({ success: true });
+      //.then(() => sendResponse({ success: true }))
+      //.catch((err) => sendResponse({ success: false, error: err }));
+      break;
+    default:
+      sendResponse({ success: false, error: 'Unknown message type' });
+  }
+};
 
 chrome.runtime.onMessage.addListener(msgHandler);
