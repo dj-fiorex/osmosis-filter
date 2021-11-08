@@ -32,8 +32,7 @@ It also add some icon to the pool card:
 6. Enjoy!
 
 ### Screen
-
-![bam](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/assets.png)
+![pools](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/pools.png)
 
 ## [Osmosis assets page](https://app.osmosis.zone/assets) by adding two new columns and sorting:
 
@@ -47,6 +46,9 @@ It also add some icon to the pool card:
 3. Navigate to "Assets"
 4. Wait 10 seconds to gather data
 5. Enjoy!
+
+### Screen
+![assets](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/assets.png)
 
 # If you think this extension is usefull please leave a star!
 
