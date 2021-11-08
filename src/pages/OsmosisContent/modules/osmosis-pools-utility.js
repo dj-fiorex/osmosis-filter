@@ -4,7 +4,7 @@ import {
   subheaderClass,
   cardHeadClass,
   titleClass,
-} from './osmosis-def';
+} from './osmosis-pools-def';
 
 export const getPoolName = (element) => {
   try {

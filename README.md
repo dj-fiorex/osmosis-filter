@@ -5,7 +5,9 @@
 
 ## Description
 
-This is a basic Chrome Extensions that let's you enhace [Osmosis pools page](https://app.osmosis.zone/pools) by adding sorting by:
+This is a basic Chrome Extensions that let's you enhace [Osmosis](https://app.osmosis.zone/) by adding some mod on the following pages:
+
+## [Osmosis pools page](https://app.osmosis.zone/pools) by adding sorting by:
 
 - Current pool APR
 - Current pool LIQUIDITY
@@ -20,7 +22,7 @@ It also add some icon to the pool card:
 - ![DollarIcon](https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/45/000000/external-dollar-banking-and-finance-kiranshastry-gradient-kiranshastry.png) You have money on this pool
 
 
-## Usage
+### Usage
 
 1. Install the extension
 2. Go to [Osmosis pools page](https://app.osmosis.zone/pools)
@@ -28,9 +30,22 @@ It also add some icon to the pool card:
 4. Press Activate Button
 5. Enjoy!
 
+
+## [Osmosis assets page](https://app.osmosis.zone/assets) by adding two new columns and sorting:
+
+- Coin price in USD (coingecko)
+- Coin market cap in USD (coingecko)
+
+### Usage
+
+1. Install the extension
+2. Go to [Osmosis assets page](https://app.osmosis.zone/assets)
+3. Wait 10 seconds to gather data
+4. Enjoy!
+
 # If you think this extension is usefull please leave a star!
 
-## Development: 
+## Development:
 
 This extension will be published to Chrome WebStore soon.
 

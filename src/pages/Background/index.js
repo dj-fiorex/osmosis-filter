@@ -1,7 +1,11 @@
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
 
-let alreadyVisitedOsmosis = false;
+let alreadyVisitedOsmosisPools = false;
+let alreadyVisitedOsmosisAssets = false;
+
+const START_POOLS_CMD = 'startPools';
+const START_ASSETS_CMD = 'startAssets';
 
 const saveDataToDb = (data) => {
   console.log('saveDataToDb', data);
@@ -80,16 +84,42 @@ const msgHandler = (msg, sender, sendResponse) => {
 const onHistoryStateUpdatedListener = (data) => {
   console.log('onHistoryStateUpdatedListener', data);
   const url = data.url;
-  if (url.includes('https://app.osmosis.zone/pools')) {
-    if (alreadyVisitedOsmosis) {
+  if (
+    url === 'https://app.osmosis.zone/pools' ||
+    url === 'https://app.osmosis.zone/pools/'
+  ) {
+    if (alreadyVisitedOsmosisPools) {
       return;
     }
-    alreadyVisitedOsmosis = true;
-    sendMsgToContentScript('onHistoryStateUpdated', {})
-      .then(() => console.log('onHistoryStateUpdated sent'))
-      .catch((err) => console.error('onHistoryStateUpdated error', err));
+    alreadyVisitedOsmosisPools = true;
+    sendMsgToContentScript(START_POOLS_CMD, {})
+      .then(() =>
+        console.log(`${START_POOLS_CMD} - onHistoryStateUpdated sent`)
+      )
+      .catch((err) =>
+        console.error(`${START_POOLS_CMD} - onHistoryStateUpdated error:`, err)
+      );
   } else {
-    alreadyVisitedOsmosis = false;
+    alreadyVisitedOsmosisPools = false;
+  }
+
+  if (
+    url === 'https://app.osmosis.zone/assets' ||
+    url === 'https://app.osmosis.zone/assets/'
+  ) {
+    if (alreadyVisitedOsmosisAssets) {
+      return;
+    }
+    alreadyVisitedOsmosisAssets = true;
+    sendMsgToContentScript(START_ASSETS_CMD, {})
+      .then(() =>
+        console.log(`${START_ASSETS_CMD} - onHistoryStateUpdated sent`)
+      )
+      .catch((err) =>
+        console.error(`${START_ASSETS_CMD} - onHistoryStateUpdated error:`, err)
+      );
+  } else {
+    alreadyVisitedOsmosisAssets = false;
   }
 };
 
