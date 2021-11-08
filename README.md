@@ -25,11 +25,15 @@ It also add some icon to the pool card:
 ### Usage
 
 1. Install the extension
-2. Go to [Osmosis pools page](https://app.osmosis.zone/pools)
-3. Wait 10 seconds to gather data -> After that a button will show in the upper-right corner
-4. Press Activate Button
-5. Enjoy!
+2. Go to [Osmosis](https://app.osmosis.zone)
+3. Navigate to "Assets"
+4. Wait 10 seconds to gather data -> After that a button will show in the upper-right corner
+5. Press Activate Button
+6. Enjoy!
 
+### Screen
+
+![bam](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/assets.png)
 
 ## [Osmosis assets page](https://app.osmosis.zone/assets) by adding two new columns and sorting:
 
@@ -39,9 +43,10 @@ It also add some icon to the pool card:
 ### Usage
 
 1. Install the extension
-2. Go to [Osmosis assets page](https://app.osmosis.zone/assets)
-3. Wait 10 seconds to gather data
-4. Enjoy!
+2. Go to [Osmosis](https://app.osmosis.zone)
+3. Navigate to "Assets"
+4. Wait 10 seconds to gather data
+5. Enjoy!
 
 # If you think this extension is usefull please leave a star!
 
