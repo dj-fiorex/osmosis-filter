@@ -1,4 +1,4 @@
-export const contentDivClass = 'css-1flj1x4';
+export const contentDivClass = 'css-1n3n2n6'; //'css-1flj1x4';
 export const titleClass = 'css-13j0qoo';
 export const poolCardClass = 'css-lb2nhg';
 export const poolNameClass = 'css-w6w2xc';
