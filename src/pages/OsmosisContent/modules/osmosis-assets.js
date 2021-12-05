@@ -4,23 +4,30 @@ const uiCoinNameMapping = {
   OSMO: 'osmosis',
   ION: 'ion',
   'Cosmos Hub - ATOM': 'cosmos',
+  'Terra - LUNA': 'terra-luna',
+  'Crypto.org - CRO': 'crypto-com-chain',
+  // 'Terra - UST': 'terra-usd',
+  'Secret Network - SCRT': 'secret',
+  'Juno - JUNO': 'juno-network',
+  'Persistence - XPRT': 'persistence',
+  'Terra - KRT': 'terra-krw',
   'Akash - AKT': 'akash-network',
   'Regen Network - REGEN': 'regen',
   'Sentinel - DVPN': 'sentinel',
-  'Persistence - XPRT': 'persistence',
   'IRISnet - IRIS': 'iris-network',
-  'Crypto.org - CRO': 'crypto-com-chain',
   'Starname - IOV': 'starname',
   'e-Money - NGM': 'e-money',
   'e-Money - EEUR': 'e-money-eur',
-  'Juno - JUNO': 'juno-network',
   //"Microtick - TICK": "osmosis",
-  'Likecoin - LIKE': 'likecoin',
-  //"IXO - IXO": "osmosis",
-  'Terra - LUNA': 'terra-luna',
-  'Terra - UST': 'terrausd',
+  'LikeCoin - LIKE': 'likecoin',
+  'IXO - IXO': 'ixo',
   'BitCanna - BCNA': 'bitcanna',
   'BitSong - BTSG': 'bitsong',
+
+  'Ki - XKI': 'ki',
+  'MediBloc - MED': 'medibloc',
+  // 'Bostrom - BOOT': 'bitsong',
+  // 'Comdex - CMDX': 'bitsong',
 };
 
 const getTableBodyColumn = (data, width = '12.5%') => {
@@ -74,11 +81,15 @@ const addPriceColumn = (rows, prices_data, price_vs_currency = 'usd') => {
       console.log('assetName: ', assetName);
       if (
         assetName.includes('Microtick - TICK') ||
-        assetName.includes('IXO - IXO')
+        assetName.includes('Bostrom - BOOT') ||
+        assetName.includes('Comdex - CMDX')
       ) {
         secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn('0'));
+      } else if (assetName.includes('Terra - UST')) {
+        secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn('1'));
       } else {
         const coinName = uiCoinNameMapping[assetName];
+        console.log('coinName: ', coinName, prices_data[coinName]);
         const price = prices_data[coinName][price_vs_currency];
         console.log('price: ', price);
         secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn(price));
@@ -126,8 +137,14 @@ const addMarketCapColumn = (rows, prices_data) => {
       console.log('assetName: ', assetName);
       if (
         assetName.includes('Microtick - TICK') ||
-        assetName.includes('IXO - IXO')
+        assetName.includes('Bostrom - BOOT') ||
+        assetName.includes('Comdex - CMDX')
       ) {
+        secondColumn.insertAdjacentHTML(
+          `afterend`,
+          getTableBodyColumn('0', columnWidth)
+        );
+      } else if (assetName.includes('Terra - UST')) {
         secondColumn.insertAdjacentHTML(
           `afterend`,
           getTableBodyColumn('0', columnWidth)
