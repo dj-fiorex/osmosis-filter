@@ -1,6 +1,7 @@
 <img src="src/assets/img/icon-128.png" width="64"/>
 
 # Osmosis Filter - Chrome Extension
+
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ddddddddd) **soon**
 
 ## Description
@@ -21,7 +22,6 @@ It also add some icon to the pool card:
 - ![ExclamationMarkIcon](https://img.icons8.com/emoji/45/000000/exclamation-mark-emoji.png) This pool is External Incentivized
 - ![DollarIcon](https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/45/000000/external-dollar-banking-and-finance-kiranshastry-gradient-kiranshastry.png) You have money on this pool
 
-
 ### Usage
 
 1. Install the extension
@@ -32,12 +32,13 @@ It also add some icon to the pool card:
 6. Enjoy!
 
 ### Screen
+
 ![pools](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/pools.png)
 
 ## [Osmosis assets page](https://app.osmosis.zone/assets) by adding two new columns and sorting:
 
-- Coin price in USD (coingecko)
-- Coin market cap in USD (coingecko)
+- Coin price in USD (Osmosis Lab API)
+- Coin liquidity in USD (Osmosis Lab API)
 
 ### Usage
 
@@ -48,6 +49,7 @@ It also add some icon to the pool card:
 5. Enjoy!
 
 ### Screen
+
 ![assets](https://raw.githubusercontent.com/dj-fiorex/osmosis-filter/main/screens/assets.png)
 
 # If you think this extension is usefull please leave a star!

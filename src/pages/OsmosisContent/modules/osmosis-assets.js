@@ -1,59 +1,25 @@
-import { coingeckoApi } from './coingecko-api';
+import { OsmosisApi } from './osmosis-api';
 
-const uiCoinNameMapping = {
-  OSMO: 'osmosis',
-  ION: 'ion',
-  'Cosmos Hub - ATOM': 'cosmos',
-  'Terra - LUNA': 'terra-luna',
-  'Crypto.org - CRO': 'crypto-com-chain',
-  // 'Terra - UST': 'terra-usd',
-  'Secret Network - SCRT': 'secret',
-  'Juno - JUNO': 'juno-network',
-  'Persistence - XPRT': 'persistence',
-  'Terra - KRT': 'terra-krw',
-  'Akash - AKT': 'akash-network',
-  'Regen Network - REGEN': 'regen',
-  'Sentinel - DVPN': 'sentinel',
-  'IRISnet - IRIS': 'iris-network',
-  'Starname - IOV': 'starname',
-  'e-Money - NGM': 'e-money',
-  'e-Money - EEUR': 'e-money-eur',
-  //"Microtick - TICK": "osmosis",
-  'LikeCoin - LIKE': 'likecoin',
-  'IXO - IXO': 'ixo',
-  'BitCanna - BCNA': 'bitcanna',
-  'BitSong - BTSG': 'bitsong',
-
-  'Ki - XKI': 'ki',
-  'MediBloc - MED': 'medibloc',
-  // 'Bostrom - BOOT': 'bitsong',
-  // 'Comdex - CMDX': 'bitsong',
-};
-
-const getTableBodyColumn = (data, width = '12.5%') => {
+const getTableBodyColumn = (data, width = '15%') => {
   return _getTableColumn(data, 'css-pq4qi6', width);
-};
-
-const getTableHeaderColumn = (data, width = '12.5%') => {
-  return _getTableColumn(data, 'css-b58gmc', width);
 };
 
 const getTableHeaderColumnSort = (
   data,
   idForSort,
   defaultSordOrder = 'asc',
-  width = '12.5%'
+  width = '15%'
 ) => {
   return `<td class="css-13zb0wo" style="width: ${width}; position: initial; cursor:pointer;"><p id="${idForSort}" class="css-b58gmc">${data} ${
     defaultSordOrder === 'asc' ? '↓' : '↑'
   }</p></td>`;
 };
 
-const _getTableColumn = (data, pClass, width = '12.5%') => {
+const _getTableColumn = (data, pClass, width = '15%') => {
   return `<td class="css-13zb0wo" style="width: ${width}; position: initial;"><p class="${pClass}">${data}</p></td>`;
 };
 
-const addPriceColumn = (rows, prices_data, price_vs_currency = 'usd') => {
+const addPriceColumn = (rows, prices_data) => {
   rows.forEach((row, i) => {
     const secondColumn = row.querySelector(`td:nth-child(2)`);
     //first row => add header
@@ -64,42 +30,38 @@ const addPriceColumn = (rows, prices_data, price_vs_currency = 'usd') => {
       );
       const btn = document.querySelector(`#sortByPrice`);
       btn.addEventListener('click', () => {
-        console.log('sortByPrice');
         sortTable(3, (a, b, sortOrder) => {
           if (sortOrder == 'asc') {
             btn.textContent = btn.textContent.replace('↑', '↓');
-            return parseFloat(a.textContent) > parseFloat(b.textContent);
+            return (
+              parseFloat(a.textContent.replace(',', '')) >
+              parseFloat(b.textContent.replace(',', ''))
+            );
           } else {
             btn.textContent = btn.textContent.replace('↓', '↑');
-            return parseFloat(a.textContent) < parseFloat(b.textContent);
+            return (
+              parseFloat(a.textContent.replace(',', '')) <
+              parseFloat(b.textContent.replace(',', ''))
+            );
           }
         });
       });
     } else {
-      //get price from coingecko
-      let assetName = row.querySelector(`td:nth-child(1)`).innerText;
-      console.log('assetName: ', assetName);
-      if (
-        assetName.includes('Microtick - TICK') ||
-        assetName.includes('Bostrom - BOOT') ||
-        assetName.includes('Comdex - CMDX')
-      ) {
-        secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn('0'));
-      } else if (assetName.includes('Terra - UST')) {
-        secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn('1'));
-      } else {
-        const coinName = uiCoinNameMapping[assetName];
-        console.log('coinName: ', coinName, prices_data[coinName]);
-        const price = prices_data[coinName][price_vs_currency];
-        console.log('price: ', price);
+      //get price from osmosis api
+      try {
+        let assetName = row.querySelector(`td:nth-child(1)`).innerText;
+        if (assetName === 'OSMO' || assetName === 'ION') {
+        } else {
+          assetName = assetName.substr(assetName.indexOf(' - ') + 3);
+        }
+        let price = prices_data.filter((x) => x.symbol === assetName)[0].price;
+        price = price.toLocaleString('en'); //.toFixed(5);
         secondColumn.insertAdjacentHTML(`afterend`, getTableBodyColumn(price));
+      } catch (error) {
+        console.log('error: ', error);
       }
     }
   });
-};
-
-const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 };
 
 const addMarketCapColumn = (rows, prices_data) => {
@@ -110,11 +72,10 @@ const addMarketCapColumn = (rows, prices_data) => {
     if (i === 0) {
       secondColumn.insertAdjacentHTML(
         `afterend`,
-        getTableHeaderColumnSort(`Market Cap $`, 'sortByMc', 'asc', columnWidth)
+        getTableHeaderColumnSort(`Liquidity $`, 'sortByMc', 'asc', columnWidth)
       );
       const btn = document.querySelector(`#sortByMc`);
       btn.addEventListener('click', () => {
-        console.log('sortByMc');
         sortTable(2, (a, b, sortOrder) => {
           if (sortOrder == 'asc') {
             btn.textContent = btn.textContent.replace('↑', '↓');
@@ -133,39 +94,22 @@ const addMarketCapColumn = (rows, prices_data) => {
       });
     } else {
       //get price from coingecko
+      let marketCap = 0;
       let assetName = row.querySelector(`td:nth-child(1)`).innerText;
-      console.log('assetName: ', assetName);
-      if (
-        assetName.includes('Microtick - TICK') ||
-        assetName.includes('Bostrom - BOOT') ||
-        assetName.includes('Comdex - CMDX')
-      ) {
-        secondColumn.insertAdjacentHTML(
-          `afterend`,
-          getTableBodyColumn('0', columnWidth)
-        );
-      } else if (assetName.includes('Terra - UST')) {
-        secondColumn.insertAdjacentHTML(
-          `afterend`,
-          getTableBodyColumn('0', columnWidth)
-        );
-      } else {
-        const coinName = uiCoinNameMapping[assetName];
-        let marketCap = numberWithCommas(
-          parseInt(prices_data[coinName]['usd_market_cap'])
-        );
-        // marketCap = marketCap.substring(0, marketCap.lastIndexOf('.'));
-        // const reverseMarketCap = marketCap.split('').reverse().join('');
-        // marketCap = reverseMarketCap
-        //   .replace(/(.{3})/g, '$1.')
-        //   .split('')
-        //   .reverse()
-        //   .join('');
-        console.log('marketCap: ', marketCap);
+      try {
+        if (assetName === 'OSMO' || assetName === 'ION') {
+        } else {
+          assetName = assetName.substr(assetName.indexOf(' - ') + 3);
+        }
+        marketCap = prices_data.filter((x) => x.symbol === assetName)[0]
+          .liquidity;
+        marketCap = marketCap.toLocaleString('en'); //.toFixed(2);
         secondColumn.insertAdjacentHTML(
           `afterend`,
           getTableBodyColumn(marketCap, columnWidth)
         );
+      } catch (error) {
+        console.log('error: ', error);
       }
     }
   });
@@ -175,7 +119,7 @@ const fixColumnsSize = (rows) => {
   rows.forEach((row, i) => {
     const secondColumn = row.querySelector(`td:nth-child(2)`);
     secondColumn.style.paddingRight = '0px';
-    secondColumn.style.width = '12.5%';
+    secondColumn.style.width = '15%';
     secondColumn.style.justifyContent = 'unset';
     const firstColumn = row.querySelector(`td:nth-child(1)`);
     firstColumn.style.width = '35%';
@@ -185,16 +129,11 @@ const fixColumnsSize = (rows) => {
 const start = () => {
   console.log('osmosis-assets.js');
   const osmosisTable = document.querySelector(`table`);
-  console.log(osmosisTable);
-  const price_vs_currency = 'usd';
   const allRows = osmosisTable.querySelectorAll('tr');
-  coingeckoApi
-    .getCoinPrice(Object.values(uiCoinNameMapping).join('%2C'))
+  OsmosisApi.getCoinsInfo()
     .then((data) => {
-      console.log('data: ', data);
-      //Add new column to every row
       fixColumnsSize(allRows);
-      addPriceColumn(allRows, data, price_vs_currency);
+      addPriceColumn(allRows, data);
       addMarketCapColumn(allRows, data);
     })
     .catch((err) => {
@@ -228,7 +167,6 @@ const sortTable = (n, sortFunc) => {
     // Start by saying: no switching is done:
     switching = false;
     rows = table.querySelectorAll('.css-1lfky4b');
-    console.log('rows: ', rows);
     /* Loop through all table rows (except the
     first, which contains table headers): */
     for (i = 0; i < rows.length - 1; i++) {
@@ -269,7 +207,6 @@ const sortTable = (n, sortFunc) => {
     } else {
       /* If no switching has been done AND the direction is "asc",
       set the direction to "desc" and run the while loop again. */
-      console.log(switchcount, dir);
       if (switchcount == 0 && dir == 'asc') {
         dir = 'desc';
         switching = true;

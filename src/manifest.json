@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "version": "1.0.2",
   "name": "Osmosis Filter",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
@@ -27,11 +28,5 @@
       "matches": []
     }
   ],
-  "permissions": [
-    "contextMenus",
-    "storage",
-    "tabs",
-    "webRequest",
-    "webNavigation"
-  ]
+  "permissions": ["webNavigation"]
 }
