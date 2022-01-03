@@ -124,6 +124,10 @@ const fixColumnsSize = (rows) => {
     const firstColumn = row.querySelector(`td:nth-child(1)`);
     firstColumn.style.width = '35%';
   });
+  document.querySelectorAll('.css-13zb0wo').forEach((x) => {
+    x.style.paddingRight = '0px';
+    x.style.width = '35%';
+  });
 };
 
 const start = () => {
